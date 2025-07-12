@@ -42,6 +42,8 @@ class TimelineEvent(BaseModel):
     event: str
     impact: str
     probability: str
+    image_url: str
+    image_description: str
 
 class AlternateTimeline(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
