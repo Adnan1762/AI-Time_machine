@@ -230,18 +230,46 @@ function App() {
                         {event.year}
                       </div>
                       <div className="flex-1 bg-white/10 rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all">
-                        <div className="flex flex-wrap items-center gap-4 mb-3">
-                          <span className="text-cyan-400 font-bold text-lg">{event.date}</span>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            event.probability === 'High' ? 'bg-green-500/20 text-green-400' :
-                            event.probability === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-red-500/20 text-red-400'
-                          }`}>
-                            {event.probability} Probability
-                          </span>
+                        <div className="flex flex-col lg:flex-row gap-6">
+                          {/* Event Content */}
+                          <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-4 mb-3">
+                              <span className="text-cyan-400 font-bold text-lg">{event.date}</span>
+                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                event.probability === 'High' ? 'bg-green-500/20 text-green-400' :
+                                event.probability === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
+                                'bg-red-500/20 text-red-400'
+                              }`}>
+                                {event.probability} Probability
+                              </span>
+                            </div>
+                            <h4 className="text-white font-bold text-xl mb-3">{event.event}</h4>
+                            <p className="text-gray-300 leading-relaxed">{event.impact}</p>
+                          </div>
+                          
+                          {/* Event Image */}
+                          {event.image_url && (
+                            <div className="lg:w-48 w-full">
+                              <div className="relative overflow-hidden rounded-lg border border-white/20">
+                                <img 
+                                  src={event.image_url}
+                                  alt={event.image_description || "Historical illustration"}
+                                  className="w-full h-32 lg:h-36 object-cover hover:scale-105 transition-transform duration-300"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                  <div className="absolute bottom-2 left-2 right-2">
+                                    <p className="text-white text-xs text-center">
+                                      {event.image_description}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <h4 className="text-white font-bold text-xl mb-3">{event.event}</h4>
-                        <p className="text-gray-300 leading-relaxed">{event.impact}</p>
                       </div>
                     </div>
                   </div>
