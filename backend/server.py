@@ -170,7 +170,7 @@ Respond with valid JSON only."""
             api_key=os.environ.get('GOOGLE_API_KEY'),
             session_id=str(uuid.uuid4()),
             system_message=system_message
-        ).with_model("gemini", "gemini-2.5-pro-preview-05-06").with_max_tokens(4096)
+        ).with_model("gemini", "gemini-2.5-flash").with_max_tokens(4096)
 
         # Send message and get response
         user_message = UserMessage(text=user_prompt)
