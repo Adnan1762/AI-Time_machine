@@ -195,6 +195,71 @@
   box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
 }
 
+/* Event image styling */
+.event-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.event-image img {
+  transition: transform 0.3s ease;
+  filter: sepia(20%) brightness(0.9);
+}
+
+.event-image:hover img {
+  transform: scale(1.05);
+  filter: sepia(0%) brightness(1);
+}
+
+.event-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 8px;
+  font-size: 11px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.event-image:hover .event-image-overlay {
+  opacity: 1;
+}
+
+/* Enhanced timeline layout for images */
+.timeline-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .timeline-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Historical era indicators */
+.era-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(6, 182, 212, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 /* Probability badge animations */
 .probability-badge {
   animation: pulse 2s infinite;
