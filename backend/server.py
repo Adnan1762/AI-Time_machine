@@ -258,9 +258,19 @@ Respond with valid JSON only."""
             
             timeline_data = json.loads(response_text)
             
-            # Create timeline events
+            # Create timeline events with images
             events = []
             for event_data in timeline_data.get('timeline_events', []):
+                # Get contextual image for this event
+                image_url, image_description = get_contextual_image(
+                    event_data.get('event', ''),
+                    event_data.get('year', 2024)
+                )
+                
+                # Add image data to event
+                event_data['image_url'] = image_url
+                event_data['image_description'] = image_description
+                
                 events.append(TimelineEvent(**event_data))
             
             timeline = AlternateTimeline(
