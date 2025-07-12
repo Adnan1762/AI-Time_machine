@@ -125,6 +125,75 @@ def extract_historical_context(scenario: str) -> List[str]:
     
     return [f"{fact['title']}: {fact['summary'][:200]}..." for fact in all_facts[:5]]
 
+def get_contextual_image(event_text: str, year: int) -> tuple[str, str]:
+    """Get contextual image for timeline event"""
+    # Curated historical images for different eras and contexts
+    historical_images = {
+        'ancient': {
+            'url': 'https://images.unsplash.com/photo-1728242410475-b4a44c08ebb3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwzfHxoaXN0b3JpY2FsJTIwdGltZWxpbmV8ZW58MHx8fHwxNzUyMzQ5MzcwfDA&ixlib=rb-4.1.0&q=85',
+            'description': 'Ancient historical artifacts and hieroglyphs'
+        },
+        'medieval': {
+            'url': 'https://images.pexels.com/photos/29082058/pexels-photo-29082058.jpeg',
+            'description': 'Medieval architecture and historical buildings'
+        },
+        'renaissance': {
+            'url': 'https://images.unsplash.com/photo-1574438041772-09c77dc8c1dc?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxoaXN0b3JpY2FsJTIwdGltZWxpbmV8ZW58MHx8fHwxNzUyMzQ5MzcwfDA&ixlib=rb-4.1.0&q=85',
+            'description': 'Renaissance period education and knowledge'
+        },
+        'industrial': {
+            'url': 'https://images.pexels.com/photos/32957809/pexels-photo-32957809.jpeg',
+            'description': 'Industrial age documents and newspapers'
+        },
+        'modern': {
+            'url': 'https://images.unsplash.com/photo-1623990671462-0aa112e1ed32?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTIzNDkzNzd8MA&ixlib=rb-4.1.0&q=85',
+            'description': 'Early modern technology and communications'
+        },
+        'contemporary': {
+            'url': 'https://images.unsplash.com/photo-1620046311691-5d93d65f69e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHx2aW50YWdlJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTIzNDkzNzd8MA&ixlib=rb-4.1.0&q=85',
+            'description': 'Computer age and digital technology'
+        },
+        'futuristic': {
+            'url': 'https://images.pexels.com/photos/30845986/pexels-photo-30845986.jpeg',
+            'description': 'Future pathways and possibilities'
+        },
+        'default': {
+            'url': 'https://images.unsplash.com/photo-1689712550124-0dab4dc855f1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxoaXN0b3JpY2FsJTIwdGltZWxpbmV8ZW58MHx8fHwxNzUyMzQ5MzcwfDA&ixlib=rb-4.1.0&q=85',
+            'description': 'Historical timeline and chronological events'
+        }
+    }
+    
+    # Determine era based on year and content
+    event_lower = event_text.lower()
+    
+    if year < 500:
+        era = 'ancient'
+    elif 500 <= year < 1400:
+        era = 'medieval'
+    elif 1400 <= year < 1750:
+        era = 'renaissance'
+    elif 1750 <= year < 1950:
+        era = 'industrial'
+    elif 1950 <= year < 2000:
+        era = 'modern'
+    elif 2000 <= year < 2050:
+        era = 'contemporary'
+    else:
+        era = 'futuristic'
+    
+    # Content-based overrides
+    if any(word in event_lower for word in ['computer', 'digital', 'internet', 'ai', 'technology']):
+        era = 'contemporary'
+    elif any(word in event_lower for word in ['radio', 'television', 'communication', 'wireless']):
+        era = 'modern'
+    elif any(word in event_lower for word in ['printing', 'press', 'book', 'education', 'knowledge']):
+        era = 'renaissance'
+    elif any(word in event_lower for word in ['ancient', 'egypt', 'rome', 'greece', 'pyramid']):
+        era = 'ancient'
+    
+    image_data = historical_images.get(era, historical_images['default'])
+    return image_data['url'], image_data['description']
+
 async def generate_timeline_with_llm(scenario: str, historical_context: List[str], depth: str) -> AlternateTimeline:
     """Generate alternate timeline using LLM"""
     try:
