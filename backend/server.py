@@ -220,7 +220,7 @@ Format your response as a JSON object with this structure:
     ]
 }
 
-Keep events realistic and grounded in historical possibility."""
+Keep events realistic and grounded in historical possibility. Do not include image_url or image_description fields - those will be added separately."""
 
         # Create the prompt
         context_text = "\n".join([f"- {fact}" for fact in historical_context])
